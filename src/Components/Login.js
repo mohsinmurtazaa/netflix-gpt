@@ -4,17 +4,21 @@ import Header from "./Header";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [emailError, setEmailError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const [nameError, setNameError] = useState(null);
+  const [apiError, setApiError] = useState(null);
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
+  const navigate = useNavigate();
   const handleAuthForm = () => {
     setIsSignInForm(!isSignInForm);
     setEmailError(null);
@@ -37,8 +41,8 @@ const Login = () => {
   };
   const handleForm = (e) => {
     e.preventDefault();
+    setApiError(null);
     if (validateForm()) {
-      console.log("email", email);
       if (!isSignInForm) {
         createUserWithEmailAndPassword(
           auth,
@@ -46,16 +50,20 @@ const Login = () => {
           password.current.value
         )
           .then((userCredential) => {
-            // Signed up
             const user = userCredential.user;
-            console.log("user", user);
-            // ...
+            updateProfile(user, {
+              displayName: name.current.value,
+              photoURL: "https://avatars.githubusercontent.com/u/49789200?v=4",
+            })
+              .then((user) => {
+                navigate("/browse");
+              })
+              .catch((error) => {
+                setApiError(error.message);
+              });
           })
           .catch((error) => {
-            console.log("error", error);
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // ..
+            setApiError(error.message);
           });
       } else {
         signInWithEmailAndPassword(
@@ -64,15 +72,11 @@ const Login = () => {
           password.current.value
         )
           .then((userCredential) => {
-            // Signed in
             const user = userCredential.user;
-            console.log("signInUser", user);
-            // ...
+            navigate("/browse");
           })
           .catch((error) => {
-            console.log("error");
-            const errorCode = error.code;
-            const errorMessage = error.message;
+            setApiError(error.message);
           });
       }
     }
@@ -91,6 +95,8 @@ const Login = () => {
             {isSignInForm ? "Sign In" : "Sign Up"}
           </h3>
           <form onSubmit={handleForm}>
+            <span className="text-red-600">{apiError}</span>
+
             {!isSignInForm && (
               <div className="mb-4">
                 <input
