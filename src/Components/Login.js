@@ -55,9 +55,7 @@ const Login = () => {
               displayName: name.current.value,
               photoURL: "https://avatars.githubusercontent.com/u/49789200?v=4",
             })
-              .then((user) => {
-                navigate("/browse");
-              })
+              .then(() => {})
               .catch((error) => {
                 setApiError(error.message);
               });
@@ -73,7 +71,6 @@ const Login = () => {
         )
           .then((userCredential) => {
             const user = userCredential.user;
-            navigate("/browse");
           })
           .catch((error) => {
             setApiError(error.message);
