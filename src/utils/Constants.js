@@ -11,3 +11,7 @@ export const API_HEADER = {
 };
 export const MOVIE_VIDEO_URL =
   "https://api.themoviedb.org/3/movie/{movie_id}/video";
+
+export const POPULAR_MOVIE_URL = "https://api.themoviedb.org/3/movie/popular";
+export const UPCOMING_MOVIE = "https://api.themoviedb.org/3/movie/upcoming";
+export const TOP_RATED_MOVIE = "https://api.themoviedb.org/3/movie/top_rated";
