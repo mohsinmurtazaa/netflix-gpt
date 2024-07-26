@@ -25,7 +25,6 @@ const Header = () => {
     dispatch(showGptPage(!showGpt));
   };
   const setLanguage = (e) => {
-    console.log(e.target.value);
     dispatch(addLang(e.target.value));
   };
   useEffect(() => {

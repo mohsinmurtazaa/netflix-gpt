@@ -35,3 +35,4 @@ export const SUPPORTED_LANGUAGE = [
 ];
 
 export const OPEN_AI_KEY = "";
+export const SEARCH_MOVIE_URL = "https://api.themoviedb.org/3/search/movie";

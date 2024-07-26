@@ -1,27 +1,45 @@
-import { async } from "@firebase/util";
 import React, { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addSearchedMovies } from "../slices/moviesSlice";
+import { API_HEADER, SEARCH_MOVIE_URL } from "../utils/Constants";
 import language from "../utils/languageConstant";
 import openai from "../utils/openAi";
 
 const GptSearch = () => {
   const lang = useSelector((store) => store.config.lang);
+  const dispatch = useDispatch();
   const searchedText = useRef(null);
   const handleGptSearch = async () => {
-    console.log("aa");
-    let $query =
-      "Recommend some good movies based on " +
-      searchedText.current.value +
-      "and only provide the name of movies.";
-    try {
-      const chatCompletion = await openai.chat.completions.create({
-        messages: [{ role: "user", content: $query }],
-        model: "gpt-3.5-turbo",
-      });
-      console.log(chatCompletion);
-    } catch (error) {
-      console.error(error);
+    if (searchedText.current.value) {
+      try {
+        const response = await fetch(
+          "https://api.themoviedb.org/3/search/movie?query=" +
+            searchedText.current.value +
+            "&include_adult=false&language=en-US&page=1",
+          API_HEADER
+        );
+        if (!response.ok) {
+          throw new Error(`Error status ${response.status}`);
+        }
+        const data = await response.json();
+        dispatch(addSearchedMovies(data.results));
+      } catch (error) {
+        console.error(error);
+      }
     }
+    // let $query =
+    //   "Recommend some good movies based on " +
+    //   searchedText.current.value +
+    //   "and only provide the name of movies.";
+    // try {
+    //   const chatCompletion = await openai.chat.completions.create({
+    //     messages: [{ role: "user", content: $query }],
+    //     model: "gpt-3.5-turbo",
+    //   });
+    //   console.log(chatCompletion);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
   return (
     <div className="pt-[7%] flex justify-center">
