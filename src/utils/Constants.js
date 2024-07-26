@@ -33,3 +33,5 @@ export const SUPPORTED_LANGUAGE = [
     name: "Urdu",
   },
 ];
+
+export const OPEN_AI_KEY = "";
