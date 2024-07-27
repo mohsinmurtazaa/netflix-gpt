@@ -1,15 +1,28 @@
 const language = {
   en: {
     search: "Search",
-    gptSearchPlaceholder: "What would you like to watch today?",
+    gptSearchPlaceholder: "Search movie by typing movie name",
+    signOut: "Sign Out",
+    homePage: "Home Page",
+    searchedResult: "Searched Result",
+    gptSearch: "GPT Search",
   },
   spanish: {
     search: "buscar",
-    gptSearchPlaceholder: "¿Qué te gustaría ver hoy?",
+    gptSearchPlaceholder:
+      "Buscar película escribiendo el nombre de la película",
+    signOut: "desconectar",
+    homePage: "página principal",
+    searchedResult: "Resultado buscado",
+    gptSearch: "Búsqueda GPT",
   },
   urdu: {
     search: "تلاش کریں",
-    gptSearchPlaceholder: "آج آپ کیا دیکھنا چاہیں گے؟",
+    gptSearchPlaceholder: "مووی کا نام ٹائپ کرکے مووی تلاش کریں۔",
+    signOut: "باہر جائیں",
+    homePage: "ہوم پیج",
+    searchedResult: "تلاش کا نتیجہ",
+    gptSearch: "جی پی ٹی تلاش",
   },
 };
 export default language;

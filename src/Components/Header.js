@@ -8,11 +8,13 @@ import { useEffect } from "react";
 import { showGptPage } from "../slices/gptSlice";
 import { addLang } from "../slices/configSlice";
 import { SUPPORTED_LANGUAGE } from "../utils/Constants";
+import language from "../utils/languageConstant";
 const Header = () => {
   const user = useSelector((store) => store.user);
+  const lang = useSelector((store) => store.config.lang);
+  const showGpt = useSelector((store) => store.gpt.show);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const showGpt = useSelector((store) => store.gpt.show);
 
   const handleSignOut = () => {
     signOut(auth)
@@ -53,9 +55,9 @@ const Header = () => {
               className="bg-gray-900 text-white rounded-lg  px-2"
               onChange={setLanguage}
             >
-              {SUPPORTED_LANGUAGE.map((lang) => (
-                <option key={lang.identifier} value={lang.identifier}>
-                  {lang.name}{" "}
+              {SUPPORTED_LANGUAGE.map((language) => (
+                <option key={language.identifier} value={language.identifier}>
+                  {language.name}{" "}
                 </option>
               ))}
             </select>
@@ -64,14 +66,14 @@ const Header = () => {
             onClick={handleGptToggle}
             className="bg-blue-700 text-white rounded-md p-2 m-2"
           >
-            {showGpt ? "Home Page" : "GPT Search"}
+            {showGpt ? language[lang].homePage : language[lang].gptSearch}
           </button>
           <img
             className="w-12 h-12"
             src="https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg"
           ></img>
           <button className="text-white font-bold mx-1" onClick={handleSignOut}>
-            Sign Out
+            {language[lang].signOut}
           </button>
         </div>
       )}
